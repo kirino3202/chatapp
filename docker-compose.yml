@@ -1,5 +1,13 @@
 version: '3'
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "8081:3000"
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
   backend:
     build:
       context: .
@@ -9,6 +17,7 @@ services:
         condition: service_healthy
     ports: 
       - "8080:8080"
+    command: /bin/sh -c "while sleep 1000; do :; done"
 
   db:
     image: mysql:8.0
