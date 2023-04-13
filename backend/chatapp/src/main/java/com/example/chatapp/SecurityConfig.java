@@ -22,13 +22,11 @@ public class SecurityConfig {
       csrf.disable();
     });
 
-    /*
-     * URLごとのアクセス制御設定
-     */
+    // URLごとのアクセス制御設定
     http.authorizeHttpRequests((authz) -> {
       authz
           .requestMatchers("/api/register").permitAll()
-          .anyRequest().permitAll();
+          .anyRequest().authenticated();
     });
 
     // ログインフォーム設定

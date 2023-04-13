@@ -25,7 +25,6 @@ public class RegisterController {
 
   @PostMapping
   public void register(@RequestBody @Validated RegisterParam param) {
-    System.out.println(param.username + param.password);
     userDetailsManager.createUser(
         User.withUsername(param.username)
             .password(passwordEncoder.encode(param.password))
