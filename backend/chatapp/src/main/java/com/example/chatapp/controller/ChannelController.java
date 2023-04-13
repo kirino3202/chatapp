@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.chatapp.dto.AddChannelParam;
 import com.example.chatapp.entity.Channel;
 import com.example.chatapp.repository.ChannelRepository;
 import com.example.chatapp.repository.UserRepository;

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.chatapp.dto.RegisterParam;
+
 /**
  * ユーザー登録のためのController
  */
@@ -26,8 +28,8 @@ public class RegisterController {
   @PostMapping
   public void register(@RequestBody @Validated RegisterParam param) {
     userDetailsManager.createUser(
-        User.withUsername(param.username)
-            .password(passwordEncoder.encode(param.password))
+        User.withUsername(param.getUsername())
+            .password(passwordEncoder.encode(param.getPassword()))
             .authorities("USER")
             .build());
 

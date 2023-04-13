@@ -1,7 +1,9 @@
-package com.example.chatapp.controller;
+package com.example.chatapp.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import java.security.Principal;
+
+import com.example.chatapp.controller.MessageController;
 
 /**
  * DTO
@@ -9,7 +11,7 @@ import java.security.Principal;
  */
 public class AddMessageParam {
   @NotBlank
-  String content;
+  private String content;
 
   public String getContent() {
     return content;

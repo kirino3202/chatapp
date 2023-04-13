@@ -1,4 +1,6 @@
-package com.example.chatapp.controller;
+package com.example.chatapp.dto;
+
+import com.example.chatapp.controller.RegisterController;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -7,24 +9,24 @@ import jakarta.validation.constraints.NotBlank;
  */
 public class RegisterParam {
   @NotBlank
-  String username;
+  private String username;
 
   @NotBlank
-  String password;
+  private String password;
 
-  String getUsername() {
+  public String getUsername() {
     return this.username;
   }
 
-  String getPassword() {
+  public String getPassword() {
     return this.password;
   }
 
-  void setUsername(String username) {
+  public void setUsername(String username) {
     this.username = username;
   }
 
-  void setPassword(String password) {
+  public void setPassword(String password) {
     this.password = password;
   }
 }
