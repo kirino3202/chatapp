@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.chatapp.dto.AddMessageParam;
+import com.example.chatapp.dto.MessageExtended;
 import com.example.chatapp.entity.Channel;
 import com.example.chatapp.entity.Message;
 import com.example.chatapp.repository.ChannelRepository;
@@ -46,7 +47,7 @@ public class MessageController {
   }
 
   @GetMapping
-  public List<Message> getMessages(@PathVariable long channelId) {
+  public List<MessageExtended> getMessages(@PathVariable long channelId) {
     this.getOrThrowChannel(channelId);
     return messageRepository.findByChannelId(channelId);
   }
