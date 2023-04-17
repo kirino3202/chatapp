@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 /**
  * セキュリティに関する設定クラス
@@ -26,13 +27,22 @@ public class SecurityConfig {
     http.authorizeHttpRequests((authz) -> {
       authz
           .requestMatchers("/api/register").permitAll()
+          .requestMatchers("/api/login").permitAll()
           .anyRequest().authenticated();
+    });
+
+    // ログインしていないユーザーが認証が必要なURLにアクセスした場合、403を返す
+    http.exceptionHandling(handling -> {
+      handling.authenticationEntryPoint(new Http403ForbiddenEntryPoint());
     });
 
     // ログインフォーム設定
     http.formLogin((formLogin) -> {
       formLogin
-          .loginProcessingUrl("/login")
+          .loginPage("/api/login")
+          .loginProcessingUrl("/api/login")
+          .defaultSuccessUrl("/api/login")
+          .failureUrl("/api/login?status=error")
           .usernameParameter("username")
           .passwordParameter("password");
     });
