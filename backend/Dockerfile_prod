@@ -1,0 +1,15 @@
+FROM ubuntu:22.04 AS build
+
+RUN apt update -y
+RUN apt install -y openjdk-17-jdk
+
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
+
+COPY backend/chatapp/ /chatapp
+WORKDIR /chatapp
+
+RUN ./mvnw package -DskipTests
+
+FROM tomcat:11.0-jdk17
+
+COPY --from=build /chatapp/target/chatapp.war $CATALINA_HOME/webapps
