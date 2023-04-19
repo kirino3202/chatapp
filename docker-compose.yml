@@ -31,3 +31,13 @@ services:
       retries: 20
     ports:
       - "3306:3306"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - 80:80

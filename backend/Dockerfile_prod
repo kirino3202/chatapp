@@ -13,3 +13,4 @@ RUN ./mvnw package -DskipTests
 FROM tomcat:11.0-jdk17
 
 COPY --from=build /chatapp/target/chatapp.war $CATALINA_HOME/webapps
+COPY backend/server.xml $CATALINA_HOME/conf
