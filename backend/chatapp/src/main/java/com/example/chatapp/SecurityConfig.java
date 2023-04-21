@@ -1,5 +1,6 @@
 package com.example.chatapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,12 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 @EnableWebSecurity
 public class SecurityConfig {
 
+  @Autowired
+  AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
+
+  @Autowired
+  AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
+
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     // CSRF無効化
@@ -27,7 +34,6 @@ public class SecurityConfig {
     http.authorizeHttpRequests((authz) -> {
       authz
           .requestMatchers("/api/register").permitAll()
-          .requestMatchers("/api/login").permitAll()
           .anyRequest().authenticated();
     });
 
@@ -39,10 +45,9 @@ public class SecurityConfig {
     // ログインフォーム設定
     http.formLogin((formLogin) -> {
       formLogin
-          .loginPage("/api/login")
           .loginProcessingUrl("/api/login")
-          .defaultSuccessUrl("/api/login")
-          .failureUrl("/api/login?status=error")
+          .successHandler(authenticationSuccessHandlerImpl)
+          .failureHandler(authenticationFailureHandlerImpl)
           .usernameParameter("username")
           .passwordParameter("password");
     });
