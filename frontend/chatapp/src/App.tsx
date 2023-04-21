@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { LoginForm } from './components/LoginForm';
+import { Home } from './components/Home';
+import { IUser } from './model/IUser';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export class App extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      loginUser: null
+    };
+
+    this.updateLoginUserId = this.updateLoginUserId.bind(this);
+  }
+
+  updateLoginUserId(user: IUser) {
+    this.setState({ loginUser: user });
+  }
+
+  render() {
+    return <div className="App">
+      {this.state.loginUser === null
+        ? <LoginForm loadHome={this.updateLoginUserId}></LoginForm>
+        : <Home user={this.state.loginUser}></Home>}
     </div>
-  );
+  }
 }
 
-export default App;
+interface IProps {
+}
+
+interface IState {
+  loginUser: IUser | null;
+}
