@@ -5,3 +5,5 @@ CREATE TABLE user (
   username VARCHAR(100) NOT NULL UNIQUE,
   enabled TINYINT(1) NOT NULL
 );
+
+INSERT INTO user (username, enabled) VALUES ('DUMMY', 0);

@@ -6,3 +6,5 @@ CREATE TABLE channel (
   created_by INT NOT NULL,
   FOREIGN KEY (created_by) REFERENCES user (id)
 );
+
+INSERT INTO channel (name, created_by) VALUES ('General', 1);
