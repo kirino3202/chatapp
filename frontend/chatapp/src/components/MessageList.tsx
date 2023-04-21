@@ -35,9 +35,12 @@ export class MessageList extends React.Component<IProps, IState> {
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!this.state.newMessageContent.trim()) {
+      return;
+    }
     callBackendAPI(`/api/channel/${this.props.channel.id}/message`,
       'POST',
-      JSON.stringify({ content: this.state.newMessageContent }))
+      JSON.stringify({ content: this.state.newMessageContent.trim() }))
       .then(response => response.json())
       .then((message: any) => {
         message['createdByUsername'] = this.props.user.username;
