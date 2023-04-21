@@ -1,5 +1,6 @@
 import React from "react";
 import { IUser } from "../model/IUser";
+import "./LoginFrom.css";
 
 export class LoginForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -84,19 +85,21 @@ export class LoginForm extends React.Component<IProps, IState> {
   }
 
   render() {
-    return <div><form>
+    return <div className="LoginForm"><form>
       <label>
-        Username:
+        Username<br></br>
         <input type="text" value={this.state.username} onChange={this.handleChange('username')}></input>
       </label>
+      <br></br>
       <label>
-        Password:
+        Password<br></br>
         <input type="password" value={this.state.password} onChange={this.handleChange('password')}></input>
       </label>
+      <br></br>
       <button onClick={this.handleLogin}>ログイン</button>
-      <button onClick={this.handleRegisterThenLogin}>登録してログイン</button>
+      <button onClick={this.handleRegisterThenLogin}>登録</button>
     </form>
-      <p>{this.state.message}</p>
+      <p className="error">{this.state.message}</p>
     </div>
   }
 }

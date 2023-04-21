@@ -1,6 +1,7 @@
 import React from 'react';
 import { IChannel } from '../model/IChannel';
 import { callBackendAPI } from '../callBackendAPI';
+import './ChannelList.css';
 
 export class ChannelList extends React.Component<IProps, IState> {
 
@@ -39,13 +40,21 @@ export class ChannelList extends React.Component<IProps, IState> {
 
   render() {
     return !this.state.channels.length ? null :
-      <div>
+      <div className="ChannelList">
         {this.state.channels.map(channel => {
-          return <div key={channel.id} onClick={this.props.selectChannel(channel)}>
-            <p>{channel.name}</p>
+          const channelClassName = 'ChannelListEntry '
+            + (channel.id === this.props.selectedChannel?.id ? 'Selected' : '');
+          return <div
+            className={channelClassName}
+            key={channel.id}
+            onClick={this.props.selectChannel(channel)}
+          >
+            {channel.name}
           </div>;
         })}
-        <div onClick={this.addChannelHandler}>チャンネルを追加</div>
+        <div className="AddChannel" onClick={this.addChannelHandler}>
+          ＋ テキストチャンネルを追加
+        </div>
       </div>
       ;
   }
@@ -53,6 +62,7 @@ export class ChannelList extends React.Component<IProps, IState> {
 
 interface IProps {
   selectChannel: Function;
+  selectedChannel: IChannel | null;
 }
 
 interface IState {

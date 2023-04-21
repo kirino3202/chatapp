@@ -3,6 +3,7 @@ import { IChannel } from "../model/IChannel";
 import { IMessage } from "../model/IMessage";
 import { callBackendAPI } from "../callBackendAPI";
 import { IUser } from "../model/IUser";
+import './MessageList.css';
 
 export class MessageList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -21,8 +22,7 @@ export class MessageList extends React.Component<IProps, IState> {
     callBackendAPI(`/api/channel/${this.props.channel.id}/message`, 'GET')
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        response.forEach((message: any) => message['createdAt'] = new Date(message['createdAT']));
+        response.forEach((message: any) => message['createdAt'] = new Date(message['createdAt']));
         this.setState({
           messages: response
         })
@@ -30,7 +30,6 @@ export class MessageList extends React.Component<IProps, IState> {
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
     this.setState({ newMessageContent: event.target.value });
   }
 
@@ -42,21 +41,32 @@ export class MessageList extends React.Component<IProps, IState> {
       .then(response => response.json())
       .then((message: any) => {
         message['createdByUsername'] = this.props.user.username;
+        message['createdAt'] = new Date(message['createdAt']);
         this.state.messages.push(message);
-        this.forceUpdate();
+        this.setState({ newMessageContent: '' });
       });
   }
 
   render() {
-    return <div>
-      {this.state.messages.map((message: IMessage) => {
-        return <div key={message.id}>
-          <p>{message.createdByUsername}</p>
-          <p>{message.content}</p>
-        </div>
-      })}
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" value={this.state.newMessageContent} onChange={this.handleChange}></input>
+    return <div className="MessageWindow">
+      <div className="MessageList">
+        {this.state.messages.map((message: IMessage) => {
+          const date = message.createdAt;
+          return <div className="MessageListEntry" key={message.id}>
+            <span className="username">{message.createdByUsername}</span>
+            <span className="created_at">{`${date.getMonth()+1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</span>
+            <br />
+            <span className="content">{message.content}</span>
+          </div>
+        })}
+      </div>
+      <form className="AddMessage" onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          value={this.state.newMessageContent}
+          onChange={this.handleChange}
+          placeholder="Enterで送信..."
+        ></input>
       </form>
     </div>
   }

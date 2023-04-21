@@ -1,0 +1,38 @@
+.ChannelList {
+  width: 300px;
+  height: 100vh;
+
+  overflow-y: scroll;
+
+  background-color: #BCCCDC;
+}
+
+.ChannelListEntry {
+  max-width: 300px;
+  overflow-x: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  padding: 7px 10px;
+  font-size: 1.2em;
+
+  border-bottom: 1px solid #717a83;
+}
+
+.ChannelListEntry:hover {
+  text-decoration: underline;
+}
+
+.Selected {
+  font-weight: bold;
+}
+
+.AddChannel {
+  padding: 7px 10px;
+  color: blue;
+}
+
+.AddChannel:hover {
+  text-decoration: underline;
+}

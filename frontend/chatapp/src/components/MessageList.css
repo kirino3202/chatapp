@@ -1,0 +1,41 @@
+.MessageWindow {
+  flex-grow: 1;
+}
+
+.MessageList {
+  height: calc(100vh - 50px);
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.MessageListEntry {
+  max-width: calc(100vw - 350px);
+  overflow-x: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  padding-bottom: 10px;
+}
+
+.AddMessage input {
+  width: 90%;
+
+  height: 2em;
+  border: 1px solid #486581;
+  border-radius: 4px;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.created_at {
+  padding-left: 10px;
+  color: #829AB1;
+}
+
+.content {
+  padding-bottom: 3px;
+}

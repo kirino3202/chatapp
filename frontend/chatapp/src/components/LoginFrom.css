@@ -1,0 +1,47 @@
+.LoginForm {
+  position: relative;
+  top: 200px;
+
+  width: min-content;
+  height: 250px;
+
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+
+  background-color: #D9E2EC;
+}
+
+.LoginForm input {
+  width: 500px;
+  height: 2em;
+  border: 1px solid #486581;
+  border-radius: 4px;
+
+  margin: 10px 0;
+}
+
+.LoginForm button {
+  width: 100px;
+
+  margin-top: 20px;
+  margin-right: 10px;
+  padding: 5px;
+
+  border: none;
+  border-radius: 4px;
+
+  color: #D9E2EC;
+  background-color: #486581;
+
+  font-weight: bold;
+}
+
+.LoginForm button:hover {
+  background-color: #243B53;
+}
+
+.LoginForm .error {
+  color: red;
+  font-weight: bold;
+}

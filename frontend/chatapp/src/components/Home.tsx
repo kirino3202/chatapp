@@ -3,6 +3,7 @@ import { IChannel } from "../model/IChannel";
 import { ChannelList } from "./ChannelList";
 import { MessageList } from "./MessageList";
 import { IUser } from "../model/IUser";
+import './Home.css';
 
 export class Home extends React.Component<IProps, IState>{
   constructor(props: IProps) {
@@ -22,10 +23,17 @@ export class Home extends React.Component<IProps, IState>{
   }
 
   render() {
-    return <div>
-      <ChannelList selectChannel={this.selectChannelHandler}></ChannelList>
+    return <div className="Home">
+      <ChannelList
+        selectChannel={this.selectChannelHandler}
+        selectedChannel={this.state.channel}
+      ></ChannelList>
       {this.state.channel &&
-        <MessageList key={this.state.channel.id} channel={this.state.channel} user={this.props.user}></MessageList>}
+        <MessageList
+          key={this.state.channel.id}
+          channel={this.state.channel}
+          user={this.props.user}
+        ></MessageList>}
     </div>
   }
 }
