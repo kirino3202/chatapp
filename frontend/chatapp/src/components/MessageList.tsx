@@ -6,6 +6,10 @@ import { IUser } from "../model/IUser";
 import './MessageList.css';
 
 export class MessageList extends React.Component<IProps, IState> {
+  updateTimeoutId: NodeJS.Timer | null;
+  messageBottomElement: React.RefObject<HTMLDivElement>;
+  shouldScrollToBottom: boolean;
+
   constructor(props: IProps) {
     super(props);
 
@@ -17,15 +21,40 @@ export class MessageList extends React.Component<IProps, IState> {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.updateMessages = this.updateMessages.bind(this);
+
+    this.updateTimeoutId = null;
+    this.messageBottomElement = React.createRef();
+    this.shouldScrollToBottom = true;
   }
 
   componentDidMount() {
-    callBackendAPI(`/api/channel/${this.props.channel.id}/message`, 'GET')
+    const _this = this;
+    this.updateTimeoutId = setTimeout(function loop() {
+      _this.updateMessages();
+      _this.updateTimeoutId = setTimeout(loop, 1000);
+    });
+  }
+
+  componentWillUnmount() {
+    this.updateTimeoutId && clearInterval(this.updateTimeoutId);
+  }
+
+  componentDidUpdate() {
+    this.shouldScrollToBottom && this.messageBottomElement.current?.scrollIntoView({ behavior: "smooth" });
+    this.shouldScrollToBottom = false;
+  }
+
+  updateMessages() {
+    callBackendAPI(`/api/channel/${this.props.channel.id}/message?after=${this.state.messages[this.state.messages.length - 1]?.id || 0}`, 'GET')
       .then(response => response.json())
       .then(response => {
+        const rect = this.messageBottomElement.current?.getBoundingClientRect();
+        this.shouldScrollToBottom = !!rect && (0 < rect.bottom && rect.top < window.innerHeight);
+
         response.forEach((message: any) => message['createdAt'] = new Date(message['createdAt']));
         this.setState({
-          messages: response
+          messages: this.state.messages.concat(response)
         })
       });
   }
@@ -42,11 +71,7 @@ export class MessageList extends React.Component<IProps, IState> {
     callBackendAPI(`/api/channel/${this.props.channel.id}/message`,
       'POST',
       JSON.stringify({ content: this.state.newMessageContent.trim() }))
-      .then(response => response.json())
-      .then((message: any) => {
-        message['createdByUsername'] = this.props.user.username;
-        message['createdAt'] = new Date(message['createdAt']);
-        this.state.messages.push(message);
+      .then(() => {
         this.setState({ newMessageContent: '' });
       });
   }
@@ -69,7 +94,7 @@ export class MessageList extends React.Component<IProps, IState> {
           const date = message.createdAt;
           return <div className="MessageListEntry" key={message.id}>
             <span className="username">{message.createdByUsername}</span>
-            <span className="created_at">{`${date.getMonth() + 1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</span>
+            <span className="created_at">{`${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`}</span>
             {(this.props.channel.createdBy === this.props.user.id
               || message.createdBy === this.props.user.id)
               && <span className="delete" onClick={this.handleDelete(message)}>削除</span>
@@ -78,6 +103,7 @@ export class MessageList extends React.Component<IProps, IState> {
             <span className="content">{message.content}</span>
           </div>
         })}
+        <div ref={this.messageBottomElement}></div>
       </div>
       <form className="AddMessage" onSubmit={this.handleSubmit}>
         <input

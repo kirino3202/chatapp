@@ -3,6 +3,7 @@ package com.example.chatapp.controller;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -47,9 +49,9 @@ public class MessageController {
   }
 
   @GetMapping
-  public List<MessageExtended> getMessages(@PathVariable long channelId) {
+  public List<MessageExtended> getMessages(@PathVariable long channelId, @RequestParam Optional<Long> after) {
     this.getOrThrowChannel(channelId);
-    return messageRepository.findByChannelId(channelId);
+    return messageRepository.findByChannelId(channelId, after.isPresent() ? after.get() : 0);
   }
 
   @PostMapping
