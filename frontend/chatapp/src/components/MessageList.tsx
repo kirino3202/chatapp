@@ -42,7 +42,6 @@ export class MessageList extends React.Component<IProps, IState> {
 
   componentDidUpdate() {
     this.shouldScrollToBottom && this.messageBottomElement.current?.scrollIntoView({ behavior: "smooth" });
-    this.shouldScrollToBottom = false;
   }
 
   updateMessages() {
@@ -50,7 +49,7 @@ export class MessageList extends React.Component<IProps, IState> {
       .then(response => response.json())
       .then(response => {
         const rect = this.messageBottomElement.current?.getBoundingClientRect();
-        this.shouldScrollToBottom = !!rect && (0 < rect.bottom && rect.top < window.innerHeight);
+        this.shouldScrollToBottom = rect === undefined || (0 <= rect.bottom && rect.top <= window.innerHeight);
 
         response.forEach((message: any) => message['createdAt'] = new Date(message['createdAt']));
         this.setState({
