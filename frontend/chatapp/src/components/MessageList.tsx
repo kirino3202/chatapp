@@ -16,6 +16,7 @@ export class MessageList extends React.Component<IProps, IState> {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +51,17 @@ export class MessageList extends React.Component<IProps, IState> {
       });
   }
 
+  handleDelete(message: IMessage) {
+    return () => {
+      if (window.confirm('削除しますか？')) {
+        callBackendAPI(`/api/channel/${this.props.channel.id}/message/${message.id}`, 'DELETE')
+          .then(() => {
+            this.setState({ messages: this.state.messages.filter(_message => _message.id !== message.id) });
+          });
+      }
+    }
+  }
+
   render() {
     return <div className="MessageWindow">
       <div className="MessageList">
@@ -57,7 +69,11 @@ export class MessageList extends React.Component<IProps, IState> {
           const date = message.createdAt;
           return <div className="MessageListEntry" key={message.id}>
             <span className="username">{message.createdByUsername}</span>
-            <span className="created_at">{`${date.getMonth()+1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</span>
+            <span className="created_at">{`${date.getMonth() + 1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`}</span>
+            {(this.props.channel.createdBy === this.props.user.id
+              || message.createdBy === this.props.user.id)
+              && <span className="delete" onClick={this.handleDelete(message)}>削除</span>
+            }
             <br />
             <span className="content">{message.content}</span>
           </div>

@@ -11,15 +11,20 @@
 .MessageListEntry {
   max-width: calc(100vw - 350px);
   overflow-x: hidden;
-
+  
   white-space: nowrap;
   text-overflow: ellipsis;
-
+  
   padding-bottom: 10px;
+  margin-left: 10px;
+}
+
+.MessageListEntry:hover {
+  background-color: #D9E2EC;
 }
 
 .AddMessage input {
-  width: 90%;
+  width: 95%;
 
   height: 2em;
   border: 1px solid #486581;
@@ -38,4 +43,18 @@
 
 .content {
   padding-bottom: 3px;
+}
+
+.delete {
+  opacity: 0;
+  padding-left: 10px;
+  color: red;
+}
+
+.MessageListEntry:hover .delete {
+  opacity: 1;
+}
+
+.delete:hover {
+  text-decoration: underline;
 }
