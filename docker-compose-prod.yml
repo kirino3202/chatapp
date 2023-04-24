@@ -1,0 +1,36 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile_prod
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile_prod
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - 80:80
