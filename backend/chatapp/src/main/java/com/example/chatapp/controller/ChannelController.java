@@ -18,6 +18,9 @@ import com.example.chatapp.entity.Channel;
 import com.example.chatapp.repository.ChannelRepository;
 import com.example.chatapp.repository.UserRepository;
 
+/**
+ * テキストチャンネルの取得、登録を実行するController
+ */
 @RestController
 @RequestMapping("/api/channel")
 public class ChannelController {

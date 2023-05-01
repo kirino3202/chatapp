@@ -48,12 +48,18 @@ public class MessageController {
     this.userRepository = userRepository;
   }
 
+  /**
+   * メッセージを取得する
+   */
   @GetMapping
   public List<MessageExtended> getMessages(@PathVariable long channelId, @RequestParam Optional<Long> after) {
     this.getOrThrowChannel(channelId);
     return messageRepository.findByChannelId(channelId, after.isPresent() ? after.get() : 0);
   }
 
+  /**
+   * メッセージを追加する
+   */
   @PostMapping
   public Message addMessage(
       @PathVariable long channelId,
@@ -73,6 +79,9 @@ public class MessageController {
     return this.messageRepository.save(message);
   }
 
+  /**
+   * メッセージを削除する
+   */
   @DeleteMapping("/{messageId}")
   public void deleteMessage(
       @PathVariable long channelId,

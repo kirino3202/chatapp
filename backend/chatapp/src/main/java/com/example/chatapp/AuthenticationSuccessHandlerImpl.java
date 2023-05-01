@@ -14,6 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.example.chatapp.repository.UserRepository;
 
+/**
+ * 認証成功時のハンドラ
+ */
 @Component
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
   @Autowired

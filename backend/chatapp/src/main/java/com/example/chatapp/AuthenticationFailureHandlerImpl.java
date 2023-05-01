@@ -10,6 +10,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 認証失敗時のハンドラ
+ */
 @Component
 public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
 
