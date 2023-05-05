@@ -1,6 +1,6 @@
 import React from "react";
 import { IUser } from "../model/IUser";
-import "./LoginFrom.css";
+import "./LoginForm.css";
 
 export class LoginForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
