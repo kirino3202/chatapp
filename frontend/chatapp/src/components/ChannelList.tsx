@@ -19,6 +19,9 @@ export class ChannelList extends React.Component<IProps, IState> {
       .then(response => response.json())
       .then(response => {
         this.setState({ channels: response });
+        if (response.length > 0) {
+          this.props.selectChannel(response[0])();
+        }
       });
   }
 
