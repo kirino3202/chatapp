@@ -25,6 +25,9 @@ public class UserDetailsManagerConfig {
     // CALL add_user(username, password, enabled)
     jdbcUserDetailsManager.setCreateUserSql("CALL add_user(?,?,?)");
 
+    // ユーザーの存在確認をするクエリを設定
+    jdbcUserDetailsManager.setUserExistsSql("SELECT 1 FROM user WHERE username = ?");
+    
     // ユーザーを取得するクエリを設定
     jdbcUserDetailsManager.setUsersByUsernameQuery(
         "SELECT username, password_hash as password, enabled " +
